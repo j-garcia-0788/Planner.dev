@@ -7,23 +7,25 @@ if ($_GET) {
 if ($_POST) {
 	var_dump($_POST);
 }
+
+
 	?>
 
 
 <html>
 	<head>
 		<title>TODO List</title>
-		<link rel="stylesheet" type="text/css" href="/css/todo.css">
+		<link rel="stylesheet" href="/site.css">
 	</head>
 		<body>
-			<h1>TODO list</h1>
-			<hr>
+			<h1 class="header">TODO list</h1>
 				<ul>
 					<li>do this</li>
 					<li>clean kitchen</li>
 					<li>sleep</li>
 				</ul>
-			<h2>Add items</h2>
+				<hr>
+				<h2>Add items TODO list</h2>
 				<form method="POST" action="/todo_list.html">
 					
 					<label for="todo_items">New Item</label>
