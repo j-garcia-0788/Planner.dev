@@ -1,7 +1,7 @@
 
 <?php
 
-include '../inc/address_data_store.php'; 
+require_once '../inc/address_data_store.php'; 
 
 	$addbook = new addressbook();
 	$addbook->filename = 'address2.csv';
