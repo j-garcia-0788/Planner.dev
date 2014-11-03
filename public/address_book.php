@@ -1,41 +1,22 @@
 
 <?php
+
+include '../inc/address_data_store.php'; 
+
+	$addbook = new addressbook();
+	$addbook->filename = 'address2.csv';
+	$addresses = $addbook->openfile();
+	$addbook->array=$addresses;
+
 	
-
-	$filename = 'address2.csv';
-
-	function savefile($filename, $addressbook){ 
-		 	$handle = fopen($filename, 'w');
-			foreach ($addressbook as $entry) {
-		    	fputcsv($handle, $entry);
-		    }
-		    fclose($handle);
-		}
-
-
-	function openfile($filename){
-			$array = [];
-			$handle = fopen($filename, 'r');
-			while(!feof($handle)) {
-				$row = fgetcsv($handle);
-
-				if (!empty($row)){
-					$array[] = $row;
-				}
-			}
-		fclose($handle);
-		return $array; 
-	}
-
-	$addressbook = openfile($filename);
-
+	
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
-		unset($addressbook[$id]);
-		savefile($filename, $addressbook);
+		unset($addresses[$id]);
+		$addbook->savefile($addresses);
 	}
 
-if (!empty($_POST)) {
+	if (!empty($_POST)) {
 
 	
 	if (empty($_POST['name']) || empty($_POST['address']) || empty($_POST['city']) || empty($_POST['state'])
@@ -64,9 +45,10 @@ if (!empty($_POST)) {
 			$newEntry['phone'] = $_POST['phone'];
 		}
 
-		array_push($addressbook, $newEntry);
-	
-		savefile($filename, $addressbook);
+		$addresses[]=$newEntry;
+		//$Address_book_obj->write_to_csv ($addressBook);
+		
+		$addbook->savefile($addresses);
 	}
 }	
 
@@ -110,7 +92,7 @@ if (!empty($_POST)) {
 		</tr>
 	</div>
 	<div class="table">	
-		<?  foreach ($addressbook as $key => $address): ?>
+		<?  foreach ($addresses as $key => $address): ?>
 			<tr>
 			
 			<?foreach ($address as $value): ?>
