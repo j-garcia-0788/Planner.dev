@@ -3,9 +3,9 @@
 
 require_once '../inc/address_data_store.php'; 
 
-	$addbook = new addressbook();
+	$addbook = new AddressDataStore();
 	$addbook->filename = 'address2.csv';
-	$addresses = $addbook->openfile();
+	$addresses = $addbook->readCSV();
 	$addbook->array=$addresses;
 
 	
@@ -13,7 +13,7 @@ require_once '../inc/address_data_store.php';
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
 		unset($addresses[$id]);
-		$addbook->savefile($addresses);
+		$addbook->writeCSV($addresses);
 	}
 
 	if (!empty($_POST)) {
@@ -48,7 +48,7 @@ require_once '../inc/address_data_store.php';
 		$addresses[]=$newEntry;
 		//$Address_book_obj->write_to_csv ($addressBook);
 		
-		$addbook->savefile($addresses);
+		$addbook->writeCSV($addresses);
 	}
 }	
 
@@ -129,10 +129,6 @@ require_once '../inc/address_data_store.php';
 			<button type="submit" class="btn">Add</button>
 
 	</form>
-	
-	
-
-
 
 
 </body>
