@@ -129,7 +129,7 @@ require_once '../inc/filestore.php';
  		<button type="submit">Add</button>
 
  		</form>
-
+ 		<h3>===========================================</h3>
  		<h1>Upload file</h1>
 	<?php
 	    // Check if we saved a file
@@ -145,7 +145,7 @@ require_once '../inc/filestore.php';
             <input type="file" id="file1" name="file1">
         </p>
         <p>
-            <input type="submit" value="Upload">
+            <input type="submit" id="submit" value="Upload">
         </p>
     </form>
     </div>
