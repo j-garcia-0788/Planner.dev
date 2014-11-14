@@ -1,38 +1,6 @@
 <?php
 
-	// class Todolist {
 
-	// 	public $filename = 'data/list.txt';
-		
-	// 	public $todos = [];
-		
-	// 	public function openfile() {
-			
-	// 		// $filename = $this->filename;
-	// 		$filesize = filesize($this->filename);
-	// 		$contentArray = [];
-
-	// 		if (filesize($this->filename) > 0) {
-            	
- //            	$handle = fopen($this->filename, 'r');
-	// 			$contents = trim(fread($handle, filesize($this->filename)));
-	// 			$contentArray = explode("\n", $contents);
-	// 			fclose($handle);
-       		
- //       		}
-	// 		return $contentArray;
-	// 	} 
-
-	// 	 /* This function accepts a filename, and returns an array of list items. */
-	// 	public function savefile() {
-
-	// 		$handle = fopen($this->filename, 'w');
-	// 		$string = implode("\n", $this->todos);
-	// 		fwrite($handle, $string);
-	// 		fclose($handle);
-	// 		}
-		
-	// 	}
 require_once '../inc/filestore.php';
 
 			$list = new Filestore();
@@ -42,14 +10,6 @@ require_once '../inc/filestore.php';
 			// $list->filename = 'data/list.txt';
 			// $list->items = $all_items;
 			// $list->savefile();
-		
-		 
-		// Define a function which will save your list to file.
-		 
-		/* This function accepts an array, saves it to file, and returns nothing. */
-		 
-		// Initialize your array by calling your function to open file.
-
 		 
 		// Check for GET Requests
 		    // If there is a get request; remove the appropriate item.
