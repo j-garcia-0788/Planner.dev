@@ -1,19 +1,41 @@
 <?
-require '../include/dbconnect.php';
+require_once '../include/person.class.php';
+require_once '../include/address.class.php';
 
+if(!empty($_POST)){
+    //create a new object to hold the user's values, which pairs with the classes properties
+    $person = new Person($dbc);
+    //capture user input
+    $person->first_name = $_POST['first_name'];
+    $person->last_name = $_POST['last_name'];
+    $person->phone = $_POST['phone'];
+    $person->insert();
+}
 
+if(isset($_GET['a_id'])){
+    $address_statment = $dbc->prepare('SELECT id, people_id, street, aptno, city, state, zip FROM address WHERE id = :id');
+    $address_statment->bindValue(':id', $_GET['a_id'], PDO::PARAM_INT);
+    $address_statment->execute();
+    $address = $address_statment->fetchObject("Address", [$dbc]);
+    $address->delete();
+}
 
-if (!empty($_POST)) {
-		
-		    $query = $dbc->prepare("INSERT INTO people(first_name, last_name, phone)
-		                            VALUES(:first_name, :last_name, :phone)");
-		    $query->bindValue(':first_name', $_POST['first_name'], PDO::PARAM_STR);
-		    $query->bindValue(':last_name', $_POST['last_name'], PDO::PARAM_STR);
-		    $query->bindValue(':phone', $_POST['phone'], PDO::PARAM_STR);
-		    $query->execute();
-	}
-$addresses = $dbc->query("SELECT * FROM people LEFT JOIN address ON address.people_id = people.id");
+if(isset($_GET['id'])){
+    //make query for person
+    $person_statment = $dbc->prepare('SELECT id, first_name, last_name, phone FROM people WHERE id = :id');
+    $person_statment->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+    $person_statment->execute();
+    $person = $person_statment->fetchObject("Person", [$dbc]);
+    $person->delete();
+}
 
+$people_statement = $dbc->query("SELECT people.id, first_name, last_name, phone, address.id
+                        AS a_id, address.street, address.aptno, address.state,address.city, address.zip
+                        FROM people
+                        LEFT JOIN address
+                        ON address.people_id = people.id");
+
+$people = $people_statement->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <html>
@@ -38,23 +60,32 @@ $addresses = $dbc->query("SELECT * FROM people LEFT JOIN address ON address.peop
 				<th>Address:</th>	
 
 			</tr>
-		<? foreach($addresses as $address):?>
+		<?  foreach ($people as $person): ?>
 			<tr>
 				<td>
-					<?= $address['first_name'] ?>
+					<?= $person['first_name'] ?>
 				
-					<?= $address['last_name'] ?>
+					<?= $person['last_name'] ?>
 				
-					<?= $address['phone'] ?>
+					<?= $person['phone'] ?>
+
+					<a href="?id=<?=$person['id']?>" class="btn btn-danger btn-xs" role="button">-</button></a>
+					<a href="addperson.php?id=<?=$person['id'] ?>" class="btn btn-success active btn-xs" role="button">+</a>
 				</td>
 				<td>
-					<?= $address['Street'] ?>
+			 		<?= $person['street'] ?>
+					
+					<? if ($person['aptno'] > 0):?>
+			 		<?= $person['aptno'] ?>
+			 		<? endif; ?>
+
+					<?= $person['city'] ?>
 				
-					<?= $address['City'] ?>
+					<?= $person['state'] ?>
 				
-					<?= $address['State'] ?>
-				
-					<?= $address['Zip'] ?>
+					<?= $person['zip'] ?>
+
+					<a href="?a_id=<?=$person['a_id']?>" class="btn btn-danger btn-xs" role="button">-</button></a>
 				</td>
 			</tr>
 		<? endforeach ?>
