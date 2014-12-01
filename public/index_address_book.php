@@ -72,11 +72,12 @@ $people = $people_statement->fetchAll(PDO::FETCH_ASSOC);
 					<a href="?id=<?=$person['id']?>" class="btn btn-danger btn-xs" role="button">-</button></a>
 					<a href="addperson.php?id=<?=$person['id'] ?>" class="btn btn-success active btn-xs" role="button">+</a>
 				</td>
+				<? if (isset($person['Street'])): ?>
 				<td>
 			 		<?= $person['street'] ?>
 					
 					<? if ($person['aptno'] > 0):?>
-			 		<?= $person['aptno'] ?>
+			 			<?= $person['aptno'] ?>
 			 		<? endif; ?>
 
 					<?= $person['city'] ?>
@@ -86,7 +87,9 @@ $people = $people_statement->fetchAll(PDO::FETCH_ASSOC);
 					<?= $person['zip'] ?>
 
 					<a href="?a_id=<?=$person['a_id']?>" class="btn btn-danger btn-xs" role="button">-</button></a>
-				</td>
+					
+					</td>
+				<? endif; ?>
 			</tr>
 		<? endforeach ?>
 	</table>
